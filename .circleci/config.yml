@@ -1,0 +1,23 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@0.2.1
+
+jobs:
+  build-and-test:
+    working_directory: ~/wirelab-web
+    executor: python/default
+    steps:
+      - checkout
+      - python/install-deps
+      - run:
+          command: python manage.py migrate
+          name: Migrate
+      - run:
+          command: python manage.py test
+          name: Test
+
+workflows:
+  main:
+    jobs:
+      - build-and-test
