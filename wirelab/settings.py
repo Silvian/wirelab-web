@@ -63,16 +63,18 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static', ),
 )
 
-# AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 # Application definition
 
 PROJECT_APPS = [
+    'accounts',
     'wirelab',
 ]
 
 THIRD_PARTY_APPS = [
     'django_filters',
+    'django_countries',
     'rest_framework',
 ]
 
@@ -203,3 +205,5 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_SUPER_USER = os.getenv('DEFAULT_SUPER_USER', default='root@wirelab.com')
+DEFAULT_SUPER_USER_PASSWORD = os.getenv('DEFAULT_SUPER_USER_PASSWORD', default='root')
