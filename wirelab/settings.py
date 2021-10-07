@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 import django_heroku
+import dj_database_url
 
 from pathlib import Path
 
@@ -160,6 +161,10 @@ if 'DATABASE_HOST' in os.environ:
     DATABASES['default']['NAME'] = os.getenv('DATABASE_NAME')
     DATABASES['default']['USER'] = os.getenv('DATABASE_USER')
     DATABASES['default']['PASSWORD'] = os.getenv('DATABASE_PASSWORD')
+
+if 'DATABASE_URL' in os.environ:
+    DATABASES['default'] = dj_database_url.config(default=os.getenv('DATABASE_URL'), conn_max_age=600)
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 
 # Password validation
