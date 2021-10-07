@@ -12,3 +12,7 @@ python manage.py createdefaultsuperuser
 
 # echo "Creating default service configs..."
 # python manage.py createdefaultconfigs
+
+# collect static
+echo "Collecting static files..."
+python manage.py collectstatic --noinput
