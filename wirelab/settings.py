@@ -74,6 +74,7 @@ AUTH_USER_MODEL = 'accounts.User'
 
 PROJECT_APPS = [
     'accounts',
+    'devices',
     'wirelab',
 ]
 

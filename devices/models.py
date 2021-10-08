@@ -1,3 +1,40 @@
+import uuid
 from django.db import models
 
-# Create your models here.
+from wirelab.base_enums import ChoiceEnum
+from wirelab.base_models import TimeStampedModel
+
+
+class DeviceState(ChoiceEnum):
+    ON = "On"
+    OFF = "Off"
+
+
+class Device(TimeStampedModel):
+    """Device model."""
+
+    unique_id = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        auto_created=True,
+        primary_key=True,
+    )
+    name = models.CharField(
+        max_length=200,
+    )
+    description = models.TextField(
+        blank=True,
+        null=True,
+    )
+    state = models.CharField(
+        max_length=10,
+        choices=DeviceState.choices(),
+    )
+    active = models.BooleanField(
+        default=True,
+    )
+    owner = models.ForeignKey(
+        "accounts.User",
+        related_name="devices",
+        on_delete=models.DO_NOTHING,
+    )

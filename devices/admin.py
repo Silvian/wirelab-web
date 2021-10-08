@@ -1,3 +1,33 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Device
+
+
+@admin.register(Device)
+class DeviceAdmin(admin.ModelAdmin):
+
+    list_display = (
+        'unique_id',
+        'name',
+        'state',
+        'active',
+        'owner',
+        'created',
+    )
+
+    list_filter = (
+        'state',
+        'active',
+    )
+
+    readonly_fields = (
+        'unique_id',
+        'created',
+        'modified',
+    )
+
+    search_fields = (
+        'name',
+        'state',
+        'owner',
+    )
