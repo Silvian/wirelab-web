@@ -75,6 +75,7 @@ AUTH_USER_MODEL = 'accounts.User'
 PROJECT_APPS = [
     'accounts',
     'devices',
+    'services',
     'web',
     'wirelab',
 ]
@@ -221,3 +222,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEFAULT_SUPER_USER = os.getenv('DEFAULT_SUPER_USER', default='root@wirelab.com')
 DEFAULT_SUPER_USER_PASSWORD = os.getenv('DEFAULT_SUPER_USER_PASSWORD', default='root')
+
+# Device Service Credentials
+DEVICE_SERVICE_URL = os.getenv("DEVICE_SERVICE_URL", default='https://example.com/api/')
+DEVICE_SERVICE_API_KEY = os.getenv("DEVICE_SERVICE_API_KEY", default="secret_api_key")
