@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 
+from devices.managers import DeviceManager
 from wirelab.base_enums import ChoiceEnum
 from wirelab.base_models import TimeStampedModel
 
@@ -33,8 +34,13 @@ class Device(TimeStampedModel):
     active = models.BooleanField(
         default=True,
     )
-    owner = models.ForeignKey(
+    owners = models.ManyToManyField(
         "accounts.User",
         related_name="devices",
-        on_delete=models.DO_NOTHING,
+        blank=True,
     )
+
+    objects = DeviceManager()
+
+    def __str__(self):
+        return self.name

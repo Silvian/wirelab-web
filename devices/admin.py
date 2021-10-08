@@ -11,7 +11,6 @@ class DeviceAdmin(admin.ModelAdmin):
         'name',
         'state',
         'active',
-        'owner',
         'created',
     )
 
@@ -29,5 +28,9 @@ class DeviceAdmin(admin.ModelAdmin):
     search_fields = (
         'name',
         'state',
-        'owner',
+        'owners',
+    )
+
+    filter_horizontal = (
+        'owners',
     )
