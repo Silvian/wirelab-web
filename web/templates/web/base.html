@@ -13,7 +13,45 @@
   <link href="{% static 'resources/css/bootstrap.css' %}" rel="stylesheet"/>
 </head>
 <body>
+  <nav class="navbar navbar-light navbar-fixed-top" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <a class="navbar-brand" href="#">Wirelab</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigation-menu" aria-controls="navigation-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="navigation-menu">
+        <ul class="navbar-nav navbar-right">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">
+              {% if request.user.first_name %}
+                  {{ request.user.first_name }}
+              {% elif request.user.email %}
+                  {{ request.user.email }}
+              {% else %}
+                  User
+              {% endif %}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts/logout/">
+            {% if request.user.is_authenticated %}
+                Logout
+            {% else %}
+                Login
+            {% endif %}
+            </a>
+          </li>
+        </ul>
+
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
   <br/>
+  <br/>
+
   <div class="container">
     {% block heading %} {% endblock %}
   </div>
