@@ -20,7 +20,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
-    path("api/v1/", include("wirelab.api_urls", namespace="api-v1")),
+    path('api-auth/', include("rest_framework.urls", namespace="rest_framework")),
+    path('api/v1/', include("wirelab.api_urls", namespace="api-v1")),
+    path('accounts/', include("accounts.urls", namespace="accounts")),
     path('', include("web.urls", namespace="web")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

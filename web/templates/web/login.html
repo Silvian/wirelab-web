@@ -1,10 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Wirelab</title>
-</head>
-<body>
-    <h1>Wirelab Login Page</h1>
-</body>
-</html>
+{% extends "web/base.html" %}
+
+{% block heading %}
+<div class="jumbotron">
+    <h1 class="display-4">Wirelab</h1>
+    <p class="lead">Please login below with your registered email address and password.</p>
+</div>
+{% endblock %}
+
+{% block body %}
+
+{% if logout %}
+    <div class="alert alert-info" role="alert">
+      {{ msg }}
+    </div>
+
+{% elif msg %}
+    <div class="alert alert-danger" role="alert">
+      <span class="sr-only">Error:</span>
+      {{ msg }}
+    </div>
+{% endif %}
+
+<h5>Enter email and password</h5>
+
+<div class="col-md-4 well">
+    <form role="form" enctype="multipart/form-data" action="/accounts/authenticate/" method="post">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <input class="form-control" type="text" id="email" name="email" placeholder="email" required autofocus>
+        </fieldset>
+        <fieldset class="form-group">
+            <input class="form-control" type="password" id="password" name="password" placeholder="password" required>
+        </fieldset>
+        <br/>
+        <button class="btn btn-primary" type = "submit" name = "login"><i class="fa fa-sign-in fa-fw"></i> Login</button>
+
+    </form>
+</div>
+
+{% endblock %}
