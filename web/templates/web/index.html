@@ -1,10 +1,109 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Wirelab</title>
-</head>
-<body>
-    <h1>Welcome to Wirelab</h1>
-</body>
-</html>
+{% extends "web/base.html" %}
+
+{% block heading %}
+
+  <div class="jumbotron">
+    <h1 class="display-4">Wirelab</h1>
+    <p class="lead">Welcome to wirelab. You're one place for all home smart devices.</p>
+    <p>To begin simply register your home devices then view your available devices below.</p>
+  </div>
+
+{% endblock %}
+
+{% block body %}
+
+  <div class="container-fluid">
+    <div id="list-empty" hidden><p>List is empty</p></div>
+    <div id="devices-list">
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block jsfiles %}
+    <script type="application/javascript">
+    $(document).ready(function(){
+        loadDevicesList();
+
+        $('#devices-list').on("click", '[id^="deviceId-"]', function() {
+            var substring = this.id.split('deviceId-')[1];
+            var state = substring.split('-itemstate-')[1];
+            var id = substring.split('-itemstate-')[0];
+            changeState(id, state);
+        });
+
+    });
+
+    function loadDevicesList() {
+        $.ajax({
+            type: 'GET',
+            url: '/api/v1/devices/',
+            dataType: 'json',
+            success: function (data) {
+                if(data && data.length > 0) {
+                    $.each(data, function(i, item) {
+                        if(item.state === "OFF") {
+                            $('#devices-list').append(
+                                '<div class="card" style="width: 18rem;">' +
+                                '<div class="card-body">' +
+                                '<h5 class="card-title">' + item.name + '</h5>' +
+                                '<p class="card-text">'+ item.description +'</p>' +
+
+                                '<button id="deviceId-' + item.unique_id + '-itemstate-' + item.state +'" type="button" class="btn btn-lg btn-success">Switch On</button>' +
+                                '</div>' +
+                                '</div>' +
+                                '<br/>'
+                            );
+                        }
+                        else {
+                            $('#devices-list').append(
+                                '<div class="card" style="width: 18rem;">' +
+                                '<div class="card-body">' +
+                                '<h5 class="card-title">' + item.name + '</h5>' +
+                                '<p class="card-text">' + item.description + '</p>' +
+
+                                '<button id="deviceId-' + item.unique_id + '-itemstate-' + item.state +'" type="button" class="btn btn-lg btn-danger">Switch Off</button>' +
+                                '</div>' +
+                                '</div>' +
+                                '<br/>'
+                            );
+                        }
+
+                    });
+
+                }
+
+                else {
+                    $("#list-empty").show();
+                }
+
+            }
+        });
+    }
+
+    function changeState(deviceId, state) {
+        if(state === "ON") {
+            state = "OFF";
+        }
+        else if(state === "OFF") {
+            state = "ON";
+        }
+
+        $.ajax({
+            type: 'PATCH',
+            contentType: "application/json",
+            headers: {'X-CSRFToken': getCookie('csrftoken')},
+            url: '/api/v1/devices/' + deviceId + '/',
+            dataType: 'json',
+            data: JSON.stringify({
+                state: state
+            }),
+            success: function (data) {
+                $("#devices-list").empty();
+                loadDevicesList();
+            }
+        });
+    }
+    </script>
+
+{% endblock %}

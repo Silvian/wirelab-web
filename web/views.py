@@ -20,13 +20,3 @@ class LoginView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-
-
-class DevicesView(LoginRequiredMixin, TemplateView):
-    """Devices view."""
-
-    template_name = "web/devices.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context

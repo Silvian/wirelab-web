@@ -20,4 +20,4 @@ class DevicesVewSet(
     queryset = Device.objects.all()
 
     def get_queryset(self):
-        return Device.objects.filter_by_user(self.request.user).order_by("name")
+        return Device.objects.filter(active=True).filter_by_user(self.request.user).order_by("name")
