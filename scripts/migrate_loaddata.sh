@@ -11,7 +11,7 @@ echo "Creating default user..."
 python manage.py createdefaultsuperuser
 
 # echo "Creating default service configs..."
-# python manage.py createdefaultconfigs
+python manage.py createdefaultconfigs
 
 # collect static
 echo "Collecting static files..."

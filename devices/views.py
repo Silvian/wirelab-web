@@ -6,7 +6,7 @@ from .models import Device
 from .serializers import DeviceSerializer
 
 
-class DevicesVewSet(
+class DevicesViewSet(
     mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     mixins.ListModelMixin,
