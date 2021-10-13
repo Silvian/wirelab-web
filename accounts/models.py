@@ -1,6 +1,6 @@
 from django.db import models
 
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, AnonymousUser
 from django_countries.fields import CountryField
 
 from wirelab.base_models import TimeStampedModel
@@ -84,3 +84,24 @@ class User(TimeStampedModel, AbstractBaseUser):
 
     def __str__(self):
         return self.email
+
+
+class WebhookUser(AnonymousUser):
+
+    @property
+    def is_authenticated(self):
+        # Always return True. This is a way to tell if
+        # the user has been authenticated in permissions
+        return True
+
+    def has_perm(self, perm, obj=None):
+        return True
+
+    def has_perms(self, perm_list, obj=None):
+        return True
+
+    def has_module_perms(self, module):
+        return True
+
+    def __str__(self):
+        return "Webhook Anonymous User"
