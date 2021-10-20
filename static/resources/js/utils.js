@@ -13,3 +13,13 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+function ecblockui() {
+    $.blockUI({ message: '', baseZ: 2000});
+    $.fancybox.showLoading();
+}
+
+function ecunblockui() {
+    $.unblockUI();
+    $.fancybox.hideLoading();
+}

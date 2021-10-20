@@ -35,11 +35,13 @@
     });
 
     function loadDevicesList() {
+        ecblockui();
         $.ajax({
             type: 'GET',
             url: '/api/v1/devices/',
             dataType: 'json',
             success: function (data) {
+                ecunblockui();
                 if(data && data.length > 0) {
                     $.each(data, function(i, item) {
                         if(item.state === "OFF") {
@@ -89,6 +91,7 @@
             state = "ON";
         }
 
+        ecblockui();
         $.ajax({
             type: 'PATCH',
             contentType: "application/json",
@@ -99,6 +102,7 @@
                 state: state
             }),
             success: function (data) {
+                ecunblockui();
                 $("#devices-list").empty();
                 loadDevicesList();
             }
