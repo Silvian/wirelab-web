@@ -10,12 +10,14 @@ class DeviceAdmin(admin.ModelAdmin):
         'unique_id',
         'name',
         'state',
+        'auto',
         'active',
         'created',
     )
 
     list_filter = (
         'state',
+        'auto',
         'active',
     )
 

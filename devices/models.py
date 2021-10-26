@@ -31,6 +31,15 @@ class Device(TimeStampedModel):
         max_length=10,
         choices=DeviceState.choices(),
     )
+    auto = models.BooleanField(
+        default=False,
+        help_text="Based on sunset times"
+    )
+    delay = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        help_text="Auto delay time in minutes",
+    )
     active = models.BooleanField(
         default=True,
     )
