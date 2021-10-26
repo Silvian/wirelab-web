@@ -14,6 +14,8 @@ class DeviceSerializer(serializers.ModelSerializer):
             "name",
             "description",
             "state",
+            "auto",
+            "delay",
             "active",
             "created",
             "modified",

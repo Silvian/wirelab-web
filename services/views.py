@@ -1,8 +1,10 @@
-from rest_framework import status
+from rest_framework import status, mixins
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet
 
 from devices.models import Device
+from devices.serializers import DeviceSerializer
 from .authentication import CsrfExemptSessionAuthentication, WebhookAuthentication
 from . serializers import WebhookSerializer
 
@@ -24,3 +26,15 @@ class WebhookAPIView(APIView):
 
     def get_queryset(self):
         return Device.objects.all()
+
+
+class ListDevicesViewSet(
+    mixins.ListModelMixin,
+    GenericViewSet,
+):
+    authentication_classes = (CsrfExemptSessionAuthentication, WebhookAuthentication)
+    serializer_class = DeviceSerializer
+    queryset = Device.objects.all()
+
+    def get_queryset(self):
+        return Device.objects.filter(active=True)
