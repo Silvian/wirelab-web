@@ -18,7 +18,12 @@ class WebhookAPIView(APIView):
             data = serializer.validated_data
             device = Device.objects.filter(unique_id=data["unique_id"]).first()
             if device:
-                device.active = data["active"]
+                active = data.get("active")
+                state = data.get("state")
+                if active is not None:
+                    device.active = active
+                if state is not None:
+                    device.state = state
                 device.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
 
