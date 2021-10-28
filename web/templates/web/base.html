@@ -24,6 +24,11 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="navigation-menu">
         <ul class="navbar-nav navbar-right">
+          <li class="nav-item">
+            {% if request.user.is_admin %}
+                <a class="nav-link" href="/admin/">Admin</a>
+            {% endif %}
+          </li>
           <li class="nav-item active">
             <a class="nav-link" href="#">
               {% if request.user.first_name %}
