@@ -3,9 +3,9 @@
 {% block heading %}
 
   <div class="jumbotron">
-    <h1 class="display-4">Wirelab</h1>
-    <p class="lead">Your one stop for all home automation needs.</p>
-    <p>Begin by simply registering your device. All active devices are shown below.</p>
+    <h1 class="display-6">Wirelab</h1>
+    <p id="wirelab-slogan" class="lead" style="display: none">Your one stop for all home automation needs.</p>
+    <p id="wirelab-message" style="display: none">Begin by simply registering your device. All active devices will then be shown below.</p>
   </div>
 
 {% endblock %}
@@ -13,7 +13,6 @@
 {% block body %}
 
   <div class="container-fluid">
-    <div id="list-empty" hidden><p>List is empty</p></div>
     <div id="devices-list">
     </div>
   </div>
@@ -76,7 +75,8 @@
                 }
 
                 else {
-                    $("#list-empty").show();
+                    $("#wirelab-slogan").show();
+                    $("#wirelab-message").show();
                 }
 
             }
