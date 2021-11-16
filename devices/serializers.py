@@ -31,6 +31,8 @@ class DeviceSerializer(serializers.ModelSerializer):
         )
 
     def update(self, instance, validated_data):
+        device = Device.objects.get(unique_id=instance.unique_id)
         instance = super().update(instance, validated_data)
-        update_device_status(instance.unique_id, instance.state)
+        if device.state != instance.state:
+            update_device_status(instance.unique_id, instance.state)
         return instance
