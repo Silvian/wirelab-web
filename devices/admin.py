@@ -7,12 +7,10 @@ from .models import Device
 class DeviceAdmin(admin.ModelAdmin):
 
     list_display = (
-        'unique_id',
         'name',
         'state',
         'auto',
         'active',
-        'created',
     )
 
     list_filter = (
