@@ -4,5 +4,5 @@ from .queryset import DevicesQuerySet
 
 
 class DeviceManager(Manager.from_queryset(DevicesQuerySet)):
-    """Payload setup manager."""
+    """Device manager."""
     pass

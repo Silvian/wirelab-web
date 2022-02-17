@@ -76,6 +76,7 @@ PROJECT_APPS = [
     'accounts',
     'devices',
     'services',
+    'siri',
     'web',
     'wirelab',
 ]
