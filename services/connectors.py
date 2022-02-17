@@ -15,7 +15,7 @@ class DeviceServiceConnector:
         self.api_key = api_key
 
     def state_update(self, unique_id, state):
-        """Send SMS"""
+        """Send State Update Message."""
         response = requests.post(
             url=self.service_url,
             headers={
