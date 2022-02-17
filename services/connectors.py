@@ -26,6 +26,6 @@ class DeviceServiceConnector:
                 'device_id': str(unique_id),
                 'state': state,
             }
-        ).json()
+        )
 
         return response

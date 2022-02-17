@@ -12,6 +12,7 @@ python manage.py createdefaultsuperuser
 
 # echo "Creating default service configs..."
 python manage.py createdefaultconfigs
+python manage.py createsiriconfigs
 
 # collect static
 echo "Collecting static files..."

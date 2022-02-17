@@ -23,5 +23,6 @@ urlpatterns = [
     path('api-auth/', include("rest_framework.urls", namespace="rest_framework")),
     path('api/v1/', include("wirelab.api_urls", namespace="api-v1")),
     path('accounts/', include("accounts.urls", namespace="accounts")),
+    path('siri/', include("siri.urls", namespace="siri")),
     path('', include("web.urls", namespace="web")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
