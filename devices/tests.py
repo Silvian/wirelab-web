@@ -5,6 +5,7 @@ from rest_framework.test import APITestCase
 
 from accounts.factories import UserFactory
 from devices.factories import DeviceFactory
+from devices.models import DeviceState
 
 
 class DevicesViewSetTests(APITestCase):
@@ -33,14 +34,26 @@ class DevicesViewSetTests(APITestCase):
         self.assertEqual(data["state"], self.device.state)
 
     @mock.patch("devices.serializers.update_device_status")
-    def test_device_state_update(self, _):
+    def test_device_state_update_to_on(self, _):
         self.client.force_authenticate(user=self.user)
+        self.device.state = DeviceState.OFF.value
         url = f"/api/v1/devices/{str(self.device.unique_id)}/"
         data = {"state": "ON"}
         response = self.client.patch(url, data=data)
         self.device.refresh_from_db()
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         self.assertEqual(self.device.state, "ON")
+
+    @mock.patch("devices.serializers.update_device_status")
+    def test_device_state_update_to_off(self, _):
+        self.client.force_authenticate(user=self.user)
+        self.device.state = DeviceState.ON.value
+        url = f"/api/v1/devices/{str(self.device.unique_id)}/"
+        data = {"state": "OFF"}
+        response = self.client.patch(url, data=data)
+        self.device.refresh_from_db()
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        self.assertEqual(self.device.state, "OFF")
 
     def test_device_enable_auto(self):
         self.client.force_authenticate(user=self.user)
@@ -64,13 +77,38 @@ class DevicesViewSetTests(APITestCase):
         self.assertTrue(self.device.active)
         self.assertEqual(self.device.delay, 30)
 
-    def test_device_unauthenticated(self):
+    def test_get_device_unauthenticated(self):
         url = f"/api/v1/devices/{str(self.device.unique_id)}/"
         response = self.client.get(url)
         self.assertEqual(status.HTTP_401_UNAUTHORIZED, response.status_code)
 
-    def test_devices_not_owned(self):
+    def test_get_device_not_owned(self):
         self.client.force_authenticate(user=self.user)
         url = f"/api/v1/devices/{str(self.device_2.unique_id)}/"
         response = self.client.get(url)
+        self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
+
+    def test_update_device_not_owned_state(self):
+        self.client.force_authenticate(user=self.user)
+        self.device_2.state = DeviceState.OFF.value
+        url = f"/api/v1/devices/{str(self.device_2.unique_id)}/"
+        data = {"state": "ON"}
+        response = self.client.patch(url, data=data)
+        self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
+
+    def test_device_not_owned_enable_auto(self):
+        self.client.force_authenticate(user=self.user)
+        url = f"/api/v1/devices/{str(self.device_2.unique_id)}/"
+        data = {"auto": True}
+        response = self.client.patch(url, data=data)
+        self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
+
+    def test_device_not_owned_enable_auto_with_delay(self):
+        self.client.force_authenticate(user=self.user)
+        url = f"/api/v1/devices/{str(self.device_2.unique_id)}/"
+        data = {
+            "auto": True,
+            "delay": 30,
+        }
+        response = self.client.patch(url, data=data)
         self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
