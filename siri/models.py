@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 
+from accounts.models import User
 from devices.models import Device, DeviceState
 from wirelab.base_models import SingletonModel, TimeStampedModel
 
@@ -39,6 +40,11 @@ class VoiceCommand(TimeStampedModel):
         Device,
         null=True,
         blank=True,
+        related_name="voice_command",
+        on_delete=models.PROTECT,
+    )
+    user = models.ForeignKey(
+        User,
         related_name="voice_command",
         on_delete=models.PROTECT,
     )

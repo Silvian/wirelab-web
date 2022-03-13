@@ -18,7 +18,7 @@ def voice_commands(request, unique_id):
                     update_device_status(command.device.unique_id, command.change_state)
 
             else:
-                devices = Device.objects.filter(active=True)
+                devices = Device.objects.filter(active=True).filter_by_user(command.user)
                 for device in devices:
                     update_device_status(device.unique_id, command.change_state)
 
