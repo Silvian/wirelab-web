@@ -1,6 +1,7 @@
 from unittest import mock
 from django.test import TestCase
 
+from accounts.factories import UserFactory
 from devices.factories import DeviceFactory
 from devices.models import DeviceState
 from siri.factories import SiriConfigurationFactory, VoiceCommandFactory
@@ -10,16 +11,27 @@ class TestVoiceCommandsIntegrationTestCase(TestCase):
 
     def setUp(self):
         self.config = SiriConfigurationFactory()
-        self.device = DeviceFactory()
-        self.command_off = VoiceCommandFactory(device=self.device)
+        self.user = UserFactory()
+        self.device = DeviceFactory(owners=[self.user])
+        self.command_off = VoiceCommandFactory(
+            change_state=DeviceState.OFF.value,
+            device=self.device,
+            user=self.user,
+        )
         self.command_on = VoiceCommandFactory(
             change_state=DeviceState.ON.value,
             device=self.device,
+            user=self.user,
         )
-        self.command_off_without_device = VoiceCommandFactory(device=None)
+        self.command_off_without_device = VoiceCommandFactory(
+            change_state=DeviceState.OFF.value,
+            device=None,
+            user=self.user,
+        )
         self.command_on_without_device = VoiceCommandFactory(
             change_state=DeviceState.ON.value,
             device=None,
+            user=self.user,
         )
 
     @mock.patch("siri.views.update_device_status")
