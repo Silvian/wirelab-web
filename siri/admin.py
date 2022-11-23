@@ -9,6 +9,7 @@ class SiriConfigurationAdmin(admin.ModelAdmin):
 
     list_display = (
         'name',
+        'api_key',
         'enabled',
     )
 

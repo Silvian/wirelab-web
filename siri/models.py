@@ -11,6 +11,10 @@ class SiriConfiguration(SingletonModel):
         max_length=50,
         default='Siri voice commands'
     )
+    api_key = models.CharField(
+        max_length=255,
+        default='secret key'
+    )
     enabled = models.BooleanField(
         default=True,
     )

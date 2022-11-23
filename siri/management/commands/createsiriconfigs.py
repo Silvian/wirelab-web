@@ -2,6 +2,7 @@
 
 from django.core.management import BaseCommand
 
+from services.utils import RandomHashGenerator
 from siri.models import SiriConfiguration
 
 
@@ -13,9 +14,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """Create default siri configuration."""
         config = SiriConfiguration.load()
+        generator = RandomHashGenerator()
         if not config:
             config = SiriConfiguration.objects.create(
                 name="Siri voice commands",
+                api_key=generator.generate_hash(),
                 enabled=True,
             )
             self.stdout.write(self.style.SUCCESS(
@@ -23,6 +26,13 @@ class Command(BaseCommand):
             )
 
         else:
-            self.stdout.write(self.style.WARNING(
-                "%s already exists" % config.name)
-            )
+            if config.api_key == "secret key":
+                config.api_key = generator.generate_hash()
+                config.save()
+                self.stdout.write(self.style.SUCCESS(
+                    "%s api key created" % config.name)
+                )
+            else:
+                self.stdout.write(self.style.WARNING(
+                    "%s already exists" % config.name)
+                )
