@@ -7,7 +7,7 @@ from services.utils import RandomHashGenerator
 
 
 class Command(BaseCommand):
-    """Create a default super user when building the application for the first time."""
+    """Create a default superuser when building the application for the first time."""
 
     help = __doc__
 

@@ -86,7 +86,10 @@ class User(TimeStampedModel, AbstractBaseUser):
         return self.email
 
 
-class WebhookUser(AnonymousUser):
+class AbstractAPIUser(AnonymousUser):
+
+    class Meta:
+        abstract = True
 
     @property
     def is_authenticated(self):
@@ -102,6 +105,15 @@ class WebhookUser(AnonymousUser):
 
     def has_module_perms(self, module):
         return True
+
+
+class SiriUser(AbstractAPIUser):
+
+    def __str__(self):
+        return "Siri Anonymous User"
+
+
+class WebhookUser(AbstractAPIUser):
 
     def __str__(self):
         return "Webhook Anonymous User"

@@ -14,6 +14,7 @@ class SiriConfigurationFactory(factory.django.DjangoModelFactory):
         model = SiriConfiguration
 
     name = "Siri voice commands"
+    api_key = "test_key"
     enabled = True
 
 
